@@ -28,12 +28,40 @@ class Calculadora extends StatefulWidget {
 }
 
 class _CalculadoraState extends State<Calculadora> {
-  int _resultado = 0;
+
+  Future<void> navegaTelaPreencher(BuildContext context, String rota) async{
+    var result = await Navigator.pushNamed(context, rota);
+    if(!mounted) return;
+    setState(() {
+      if(rota == '/preencherX'){
+        valorX = result as int;
+      }else{
+        valorY = result as int;
+      }
+    });
+  }
+
+  late int _resultado;
+  late int valorX;
+  late int valorY;
 
   void _calculaResultado(){
     setState(() {
-      _resultado++;
+      _resultado = valorX + valorY;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    valorX = 0;
+    valorY = 0;
+    _resultado = 0;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -44,80 +72,48 @@ class _CalculadoraState extends State<Calculadora> {
         ),
         body: Center( child:
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center( child:
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("X"),
-                  TextButton(style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.grey)
-                  ),onPressed: () => Navigator.pushNamed(context, '/preencherX'), child: const Text("Informar X"),)
+                  Text("X = $valorX "),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.grey),
+                    ),
+                    onPressed: () => navegaTelaPreencher(context, "/preencherX"),
+                    child: const Text("Informar X"),
+                  )
                 ],
               ),
             ),
             Center(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Y"),
+                  Text("Y: $valorY "),
                   TextButton(style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.grey)
-                  ),onPressed: () => Navigator.pushNamed(context, '/preencherY'), child: const Text("Informar Y"),)
+                  ),
+                    onPressed: () => navegaTelaPreencher(context, '/preencherY'),
+                    child: const Text("Informar Y"),)
                 ],
               ),
             ),
 
             FloatingActionButton(onPressed: _calculaResultado, child: const Text("Calcular")),
-            Text("$_resultado")
+            Text("Resultado: $_resultado")
           ],
         )
         )
     );
   }
 }
-
-// class Informax extends StatelessWidget {
-//   Informax({super.key});
-//
-//   final TextEditingController _controllerX = TextEditingController();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Preencher Valores"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           children: [
-//             Row(
-//               children: [
-//                 const Text("set X: "),
-//                 Expanded(
-//                   child: TextField(
-//                     controller: _controllerX,
-//                     decoration: const InputDecoration(
-//                       hintText: "Digite um valor",
-//                       border: OutlineInputBorder(),
-//                     ),
-//                     keyboardType: TextInputType.number,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 20),
-//             FloatingActionButton(
-//               onPressed: () {
-//                 String valor = _controllerX.text;
-//                 print("Valor digitado: $valor");
-//               },
-//               child: const Icon(Icons.calculate),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class PreencherValores extends StatelessWidget {
   PreencherValores({super.key, required this.xory});
@@ -133,6 +129,8 @@ class PreencherValores extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -152,9 +150,8 @@ class PreencherValores extends StatelessWidget {
             const SizedBox(height: 20),
             FloatingActionButton(
               onPressed: () {
-                String valor = _controller.text;
-                print("Valor digitado: $valor");
-                Navigator.pushNamed(context, '/');
+                //String valor = _controller.text;
+                Navigator.pop(context, int.parse(_controller.value.text));
               },
               child: const Text("OK"),
             ),
