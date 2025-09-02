@@ -80,10 +80,26 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("X = $valorX "),
-                  TextButton(
+                  Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorX "),),
+                  ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.grey),
+                      backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Colors.blueGrey.shade500;
+                        }
+                        return Colors.blueGrey;
+                      }),
+                      elevation: WidgetStateProperty.resolveWith<double>((states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return 2;
+                        }
+                        return 4;
+                      }),
+                      foregroundColor: WidgetStatePropertyAll(Colors.white),
+                      padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
                     ),
                     onPressed: () => navegaTelaPreencher(context, "/preencherX"),
                     child: const Text("Informar X"),
@@ -91,23 +107,69 @@ class _CalculadoraState extends State<Calculadora> {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Y: $valorY "),
-                  TextButton(style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.grey)
-                  ),
+                  Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorY "),),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Colors.blueGrey.shade500;
+                        }
+                        return Colors.blueGrey;
+                      }),
+                      elevation: WidgetStateProperty.resolveWith<double>((states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return 2;
+                        }
+                        return 4;
+                      }),
+                      foregroundColor: WidgetStatePropertyAll(Colors.white),
+                      padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                    ),
                     onPressed: () => navegaTelaPreencher(context, '/preencherY'),
                     child: const Text("Informar Y"),)
                 ],
               ),
             ),
-
-            FloatingActionButton(onPressed: _calculaResultado, child: const Text("Calcular")),
-            Text("Resultado: $_resultado")
+            const SizedBox(height: 10,),
+            ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return Colors.blueGrey.shade500;
+                    }
+                    return Colors.blueGrey;
+                  }),
+                  elevation: WidgetStateProperty.resolveWith<double>((states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return 2;
+                    }
+                    return 4;
+                  }),
+                  foregroundColor: WidgetStatePropertyAll(Colors.white),
+                  padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                ),
+                onPressed: _calculaResultado,
+                child: const Text("Calcular")
+            ),
+            const SizedBox(height: 10,),
+            Text("Resultado: $_resultado",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+            )
           ],
         )
         )
@@ -134,24 +196,40 @@ class PreencherValores extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text("set $xory: "),
+                Padding(padding: EdgeInsetsGeometry.all(10.0), child: Text("set $xory: ")),
                 Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: "Digite um valor",
-                      border: OutlineInputBorder(),
+                  child:
+                    Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0), child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        hintText: "Digite um valor",
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            FloatingActionButton(
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return Colors.blueGrey.shade500;
+                  }
+                  return Colors.blueGrey;
+                }),
+                foregroundColor: WidgetStatePropertyAll(Colors.white),
+                elevation: WidgetStateProperty.resolveWith<double>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return 2;
+                  }
+                  return 4;
+                }),
+                padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 20.0)),
+              ),
               onPressed: () {
-                //String valor = _controller.text;
-                Navigator.pop(context, int.parse(_controller.value.text));
+                Navigator.pop(context, int.parse(_controller.text));
               },
               child: const Text("OK"),
             ),
