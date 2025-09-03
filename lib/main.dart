@@ -44,10 +44,26 @@ class _CalculadoraState extends State<Calculadora> {
   late int _resultado;
   late int valorX;
   late int valorY;
+  late String selected;
+  final List<String> options = ["Somar", "Subtrair", "Multiplicar", "Dividir"];
 
   void _calculaResultado(){
     setState(() {
-      _resultado = valorX + valorY;
+      if(selected == "Somar"){
+        _resultado = valorX + valorY;
+      }else if(selected == "Subtrair"){
+        _resultado = valorX - valorY;
+      }else if(selected == "Multiplicar"){
+        _resultado = valorX * valorY;
+      }else if(selected == "Dividir" && valorY != 0 && valorX != 0){
+        _resultado = (valorX / valorY) as int;
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Não é possível dividir por zero"),
+            duration: Duration(seconds: 1),
+          )
+        );
+      }
     });
   }
 
@@ -57,6 +73,7 @@ class _CalculadoraState extends State<Calculadora> {
     valorX = 0;
     valorY = 0;
     _resultado = 0;
+    selected = options.first;
   }
 
   @override
@@ -80,7 +97,10 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorX "),),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+                    child: Text("X: $valorX "),
+                  ),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
@@ -139,7 +159,18 @@ class _CalculadoraState extends State<Calculadora> {
                 ],
               ),
             ),
-            const SizedBox(height: 10,),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+              child: CustomRadio(
+                  options: options,
+                  selected: selected,
+                  onChanged: (value) {
+                    setState(() {
+                      selected = value;
+                    });
+                  }
+              ),
+            ),
             ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
@@ -236,6 +267,60 @@ class PreencherValores extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomRadio extends StatefulWidget {
+  final List<String> options;
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  const CustomRadio({
+    super.key,
+    required this.options,
+    required this.selected,
+    required this.onChanged
+  });
+
+  @override
+  State<CustomRadio> createState() => _CustomRadioState();
+}
+
+class _CustomRadioState extends State<CustomRadio> {
+
+  final Map<String, IconData> operationIcons = {
+    "somar": Icons.add,
+    "subtrair": Icons.remove,
+    "multiplicar": Icons.clear,
+    "dividir": Icons.percent,
+  };
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widget.options.map((option) {
+        final bool isSelected = widget.selected == option;
+        return GestureDetector(
+          onTap: () => widget.onChanged(option),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            margin: EdgeInsets.symmetric(horizontal: 6),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.blueGrey.shade600 : Colors.grey[300],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              operationIcons[option.toLowerCase()],
+              color: isSelected ? Colors.white : Colors.black,
+              size: 28,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
