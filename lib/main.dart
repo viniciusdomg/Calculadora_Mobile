@@ -80,7 +80,7 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorX "),),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorX "),),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
@@ -96,7 +96,7 @@ class _CalculadoraState extends State<Calculadora> {
                         return 4;
                       }),
                       foregroundColor: WidgetStatePropertyAll(Colors.white),
-                      padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                      padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12.0, horizontal: 35.0)),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       ),
@@ -113,7 +113,7 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsetsGeometry.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorY "),),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0), child: Text("X: $valorY "),),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
@@ -129,7 +129,7 @@ class _CalculadoraState extends State<Calculadora> {
                         return 4;
                       }),
                       foregroundColor: WidgetStatePropertyAll(Colors.white),
-                      padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                      padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12.0, horizontal: 35.0)),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       ),
@@ -155,7 +155,7 @@ class _CalculadoraState extends State<Calculadora> {
                     return 4;
                   }),
                   foregroundColor: WidgetStatePropertyAll(Colors.white),
-                  padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 35.0)),
+                  padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12.0, horizontal: 35.0)),
                   shape: WidgetStatePropertyAll(
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
@@ -196,10 +196,10 @@ class PreencherValores extends StatelessWidget {
           children: [
             Row(
               children: [
-                Padding(padding: EdgeInsetsGeometry.all(10.0), child: Text("set $xory: ")),
+                Padding(padding: EdgeInsets.all(10.0), child: Text("set $xory: ")),
                 Expanded(
                   child:
-                    Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0), child: TextField(
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), child: TextField(
                       controller: _controller,
                       decoration: const InputDecoration(
                         hintText: "Digite um valor",
@@ -226,7 +226,7 @@ class PreencherValores extends StatelessWidget {
                   }
                   return 4;
                 }),
-                padding: WidgetStatePropertyAll(EdgeInsetsGeometry.symmetric(vertical: 12.0, horizontal: 20.0)),
+                padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0)),
               ),
               onPressed: () {
                 Navigator.pop(context, int.parse(_controller.text));
